@@ -18,8 +18,8 @@ static: $(addsuffix .o,$(MAIN_OBJ) $(OTHER_OBJS))
 	ld $^ -o $@ -dynamic-linker $(DYNLINKER) $(CRTLIBDIR)/crt1.o $(CRTLIBDIR)/crti.o -lc $(CRTLIBDIR)/crtn.o
 
 dynamic: $(addsuffix .o,$(MAIN_OBJ)) $(patsubst %,$(OUTLIBDIR)/lib%.so,$(OTHER_OBJS))
-	# Using rpath, we make the dynamic executable non-portable, unless OUTLIBDIR's location is in
-	#     LD_LIBRARY_PATH or in DYNLINKER's search paths.
+	# Using rpath, we make the dynamic executable non-portable, unless 
+	#     OUTLIBDIR's location is in LD_LIBRARY_PATH or in DYNLINKER's search paths.
 	ld $< -o $@ -dynamic-linker $(DYNLINKER) $(CRTLIBDIR)/crt1.o $(CRTLIBDIR)/crti.o -lc -rpath $(OUTLIBDIR) -L$(OUTLIBDIR) $(addprefix -l,$(patsubst $(OUTLIBDIR)/lib%.so,%,$(filter-out $<,$^))) $(CRTLIBDIR)/crtn.o 
 
 clean:
